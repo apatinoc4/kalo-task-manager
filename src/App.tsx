@@ -1,9 +1,9 @@
-import Index from "./pages/Index";
+import TaskBoard from "./components/task-board/TaskBoard";
 
 function App() {
   return (
     <>
-      <Index />
+      <TaskBoard />
     </>
   );
 }
