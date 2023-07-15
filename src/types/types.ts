@@ -3,6 +3,7 @@ export type Task = {
   name: string;
   description: string;
   draggableId: string;
+  status: string;
 };
 
 export type BoardColumn = {

@@ -1,6 +1,6 @@
-import BoardColumn from "./BoardColumn";
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import BoardColumn from "./BoardColumn";
 import Paper from "@mui/material/Paper";
 import { BoardContext } from "../context/BoardContextProvider";
 import { BoardColumn as BoardColumnType } from "../types/types";
@@ -40,17 +40,17 @@ const TaskBoard = () => {
     <DragDropContext
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
     >
-      <div className="w-full p-8">
-        <Paper className="flex justify-center items-center h-full flex-col ">
+      <div className="p-8 w-full">
+        <Paper className="flex flex-col h-full justify-center items-center">
           <p className="font-bold">Board</p>
-          <div className="flex flex-row w-full h-full p-4">
+          <div className="flex flex-row h-full p-4 w-full">
             {columns.map((column, idx) => (
               <BoardColumn
-                taskCount={taskCount}
-                setTaskCount={setTaskCount}
                 droppableId={idx}
                 key={idx}
                 name={column.name}
+                taskCount={taskCount}
+                setTaskCount={setTaskCount}
                 tasks={column.tasks}
               />
             ))}

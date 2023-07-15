@@ -10,12 +10,19 @@ const DEFAULT_COLUMNS: BoardColumn[] = [
     name: "To do",
     tasks: [
       {
-        taskId: "Task-1",
-        name: "Task-1",
-        draggableId: "0",
         description: "Finish Board for today",
+        draggableId: "0",
+        name: "Task-1",
+        status: "To do",
+        taskId: "Task-1",
       },
-      { taskId: "Task-2", name: "Task-2", draggableId: "1", description: "" },
+      {
+        description: "",
+        draggableId: "1",
+        name: "Task-2",
+        status: "To do",
+        taskId: "Task-2",
+      },
     ],
   },
   {

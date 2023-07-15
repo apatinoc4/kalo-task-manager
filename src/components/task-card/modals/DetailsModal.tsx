@@ -1,27 +1,29 @@
-import Dialog from "@mui/material/Dialog";
 import Box from "@mui/material/Box";
-import { useState } from "react";
+import Dialog from "@mui/material/Dialog";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
+import { useState } from "react";
 import EditField from "./EditFIeld";
 
 interface DetailsModalProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  taskName: string;
   taskDescription: string;
   taskId: string;
+  taskName: string;
+  taskStatus: string;
 }
 
 const DetailsModal = ({
   isOpen,
   setIsOpen,
-  taskName,
   taskDescription,
   taskId,
+  taskName,
+  taskStatus,
 }: DetailsModalProps) => {
-  const [isEditingTaskName, setIsEditingTaskName] = useState<boolean>(false);
   const [isEditingTaskDesc, setIsEditingTaskDesc] = useState<boolean>(false);
+  const [isEditingTaskName, setIsEditingTaskName] = useState<boolean>(false);
 
   return (
     <Dialog onClose={() => setIsOpen(false)} open={isOpen}>
@@ -29,35 +31,37 @@ const DetailsModal = ({
         {isEditingTaskName ? (
           <EditField
             fieldName="name"
+            styles="text-lg"
+            taskId={taskId}
             textValue={taskName}
             setIsEditingField={setIsEditingTaskName}
-            taskId={taskId}
-            styles="text-lg"
           />
         ) : (
           <div className="items-center flex flex-row mb-6">
             <p className="font-bold text-4xl">{taskName}</p>
             <IconButton
-              onClick={() => setIsEditingTaskName(true)}
               className="ml-1"
+              onClick={() => setIsEditingTaskName(true)}
             >
-              <EditIcon className=" text-gray-400 hover:text-gray-600" />
+              <EditIcon className="hover:text-gray-600 text-gray-400" />
             </IconButton>
           </div>
         )}
-        <p className="text-lg font-semibold">Status:</p>
         <p>
-          <span className="text-lg font-semibold">ID:</span> {taskId}
+          <span className="font-semibold text-lg">ID:</span> {taskId}
         </p>
         <p>
-          <span className=" text-lg font-semibold">Created by: </span>User
+          <span className="font-semibold text-lg">Status:</span> {taskStatus}
         </p>
-        <div className="items-center flex flex-row">
-          <p className=" text-lg font-semibold">Description:</p>
+        <p>
+          <span className="font-semibold text-lg">Created by: </span>User
+        </p>
+        <div className="flex flex-row items-center">
+          <p className="font-semibold text-lg">Description:</p>
           <IconButton onClick={() => setIsEditingTaskDesc(true)}>
             <EditIcon
+              className="hover:text-gray-600 text-s text-gray-400"
               fontSize="small"
-              className="text-s text-gray-400 hover:text-gray-600"
             />
           </IconButton>
         </div>
@@ -66,10 +70,10 @@ const DetailsModal = ({
           {isEditingTaskDesc ? (
             <EditField
               fieldName="description"
-              textValue={taskDescription}
-              setIsEditingField={setIsEditingTaskDesc}
               styles="w-10"
               taskId={taskId}
+              textValue={taskDescription}
+              setIsEditingField={setIsEditingTaskDesc}
               multiline
             />
           ) : (
