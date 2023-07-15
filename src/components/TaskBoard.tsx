@@ -1,32 +1,18 @@
-import BoardColumn from "../board-column/BoardColumn";
-import { useState } from "react";
+import BoardColumn from "./BoardColumn";
+import { useState, useContext } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import Paper from "@mui/material/Paper";
+import { BoardContext } from "../context/BoardContextProvider";
+import { BoardColumn as BoardColumnType } from "../types/types";
 
-import "./TaskBoard.scss";
-
-const DEFAULT_COLUMNS = [
-  {
-    name: "To do",
-    tasks: [
-      { taskId: "Task-1", name: "Task-1", draggableId: "0" },
-      { taskId: "Task-2", name: "Task-2", draggableId: "1" },
-    ],
-  },
-  {
-    name: "In Progress",
-    tasks: [],
-  },
-  {
-    name: "Done",
-    tasks: [],
-  },
-];
-
-const onDragEnd = (result: DropResult, columns, setColumns) => {
+const onDragEnd = (
+  result: DropResult,
+  columns: BoardColumnType[],
+  setColumns: (columns: BoardColumnType[]) => void
+) => {
   const { source, destination } = result;
   if (destination) {
-    let updatedDroppables = [...columns];
+    const updatedDroppables = [...columns];
 
     const sourceDroppable = updatedDroppables[+source.droppableId];
     const destDroppable = updatedDroppables[+destination.droppableId];
@@ -47,7 +33,7 @@ const onDragEnd = (result: DropResult, columns, setColumns) => {
 };
 
 const TaskBoard = () => {
-  const [columns, setColumns] = useState(DEFAULT_COLUMNS);
+  const { columns, setColumns } = useContext(BoardContext);
   const [taskCount, setTaskCount] = useState<number>(2);
 
   return (
@@ -55,19 +41,17 @@ const TaskBoard = () => {
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
     >
       <div className="w-full p-8">
-        <Paper className="flex justify-center items-center h-96 flex-col ">
+        <Paper className="flex justify-center items-center h-full flex-col ">
           <p className="font-bold">Board</p>
-          <div className="flex flex-row w-full">
-            {columns.map(({ name, tasks }, idx) => (
+          <div className="flex flex-row w-full h-full p-4">
+            {columns.map((column, idx) => (
               <BoardColumn
                 taskCount={taskCount}
                 setTaskCount={setTaskCount}
-                columns={columns}
-                setColumns={setColumns}
                 droppableId={idx}
                 key={idx}
-                name={name}
-                tasks={tasks}
+                name={column.name}
+                tasks={column.tasks}
               />
             ))}
           </div>

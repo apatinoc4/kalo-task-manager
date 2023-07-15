@@ -1,9 +1,15 @@
-import TaskBoard from "./components/task-board/TaskBoard";
+import TaskBoard from "./components/TaskBoard";
+import BoardProvider from "./context/BoardContextProvider";
+import { StyledEngineProvider } from "@mui/material";
 
 function App() {
   return (
     <>
-      <TaskBoard />
+      <BoardProvider>
+        <StyledEngineProvider injectFirst>
+          <TaskBoard />
+        </StyledEngineProvider>
+      </BoardProvider>
     </>
   );
 }
