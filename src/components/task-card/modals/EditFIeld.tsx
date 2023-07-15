@@ -1,4 +1,3 @@
-import TextField from "@mui/material/TextField";
 import clsx from "clsx";
 import { useState, useContext } from "react";
 import CheckIcon from "@mui/icons-material/Check";
@@ -12,13 +11,17 @@ interface EditFieldProps {
   textValue: string;
   setIsEditingField: (isEditingField: boolean) => void;
   taskId: string;
+  fieldName: string;
+  multiline?: boolean;
 }
 
 const EditField = ({
+  fieldName,
   textValue,
   styles,
   setIsEditingField,
   taskId,
+  multiline,
 }: EditFieldProps) => {
   const { columns, setColumns } = useContext(BoardContext);
   const [placeHolderValue, setPlaceHolderValue] = useState<string>(textValue);
@@ -27,7 +30,7 @@ const EditField = ({
     const updatedColumns = columns.map((column) => {
       const updatedTasks = column.tasks.map((task) => {
         if (task.taskId === taskId) {
-          return { ...task, name: placeHolderValue };
+          return { ...task, [fieldName]: placeHolderValue };
         }
         return task;
       });
@@ -43,13 +46,23 @@ const EditField = ({
   };
   return (
     <div className="flex items-start  z-10 relative">
-      <input
-        value={placeHolderValue}
-        className={(clsx("edit-field", styles), "border-slate-950")}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setPlaceHolderValue(e.target.value)
-        }
-      />
+      {multiline ? (
+        <textarea
+          value={placeHolderValue}
+          className={(clsx("edit-field", styles), "bg-slate-100 resize-none")}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setPlaceHolderValue(e.target.value)
+          }
+        />
+      ) : (
+        <input
+          value={placeHolderValue}
+          className={(clsx("edit-field", styles), "bg-slate-100")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPlaceHolderValue(e.target.value)
+          }
+        />
+      )}
       <div className=" absolute right-0 top-6 flex flex-row my-2">
         <IconButton onClick={onConfirm} className="mr-1" size="small">
           <CheckIcon className=" text-white bg-green-600 rounded-full" />

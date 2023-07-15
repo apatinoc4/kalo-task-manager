@@ -42,6 +42,7 @@ const TaskCard = ({
               <div>
                 {isEditingTaskName ? (
                   <EditField
+                    fieldName="name"
                     textValue={name}
                     styles="bg-white w-24 h-5"
                     size="small"
