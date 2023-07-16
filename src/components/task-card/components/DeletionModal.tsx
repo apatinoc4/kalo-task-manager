@@ -14,19 +14,17 @@ interface DeletionModalProps {
 }
 
 const DeletionModal = ({ setIsOpen, isOpen, taskId }: DeletionModalProps) => {
-  const { setColumns, setIsSnackBarOpen } = useContext(BoardContext);
+  const { columns, setColumns, setIsSnackBarOpen } = useContext(BoardContext);
 
   const deleteTask = () => {
-    setColumns((prevColumns: BoardColumn[]) => {
-      const updatedColumns = prevColumns.map((column: BoardColumn) => {
-        const updatedTasks = column.tasks.filter(
-          (task: Task) => task.taskId !== taskId
-        );
-        return { ...column, tasks: updatedTasks };
-      });
-
-      return updatedColumns;
+    const updatedColumns = columns.map((column: BoardColumn) => {
+      const updatedTasks = column.tasks.filter(
+        (task: Task) => task.taskId !== taskId
+      );
+      return { ...column, tasks: updatedTasks };
     });
+
+    setColumns(updatedColumns);
   };
 
   return (
