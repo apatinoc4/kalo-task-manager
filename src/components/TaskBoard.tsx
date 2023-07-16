@@ -11,25 +11,65 @@ const onDragEnd = (
   setColumns: (columns: BoardColumnType[]) => void
 ) => {
   const { source, destination } = result;
-  if (destination) {
-    const updatedDroppables = [...columns];
 
-    const sourceDroppable = updatedDroppables[+source.droppableId];
-    const destDroppable = updatedDroppables[+destination.droppableId];
-    const sourceItems = sourceDroppable?.tasks;
-    const destItems = destDroppable?.tasks;
-
-    console.log(sourceItems, destItems, "SRC DEST");
-    const [draggedElement] = sourceItems.splice(source.index, 1);
-    console.log(draggedElement);
-
-    if (source.droppableId !== destination.droppableId) {
-      destItems.splice(destination.index, 0, draggedElement);
-    } else {
-      sourceItems.splice(destination.index, 0, draggedElement);
-    }
-    setColumns(updatedDroppables);
+  // If the destination is null or the same as the source, do nothing
+  if (
+    !destination ||
+    (source.droppableId === destination.droppableId &&
+      source.index === destination.index)
+  ) {
+    return;
   }
+
+  console.log("Source:", source);
+  console.log("Destination:", destination);
+  console.log("Columns:", columns);
+
+  const sourceIndex = Number(source.droppableId);
+  const destinationIndex = Number(destination.droppableId);
+  const sourceColumn = columns[sourceIndex];
+  const destinationColumn = columns[destinationIndex];
+  const sourceItems = [...sourceColumn.tasks];
+
+  if (sourceIndex === destinationIndex) {
+    // Moving within the same column
+    const [draggedElement] = sourceItems.splice(source.index, 1);
+    sourceItems.splice(destination.index, 0, draggedElement);
+
+    const updatedColumns = [...columns];
+    updatedColumns[sourceIndex] = {
+      ...sourceColumn,
+      tasks: sourceItems,
+    };
+
+    setColumns(updatedColumns);
+  } else {
+    // Moving between different columns
+    const destinationItems = [...destinationColumn.tasks];
+    const draggedElementIndex = sourceItems.findIndex(
+      (task) => task.draggableId === result.draggableId
+    );
+
+    if (draggedElementIndex !== -1) {
+      const [draggedElement] = sourceItems.splice(draggedElementIndex, 1);
+      destinationItems.splice(destination.index, 0, draggedElement);
+
+      const updatedColumns = [...columns];
+      updatedColumns[sourceIndex] = {
+        ...sourceColumn,
+        tasks: sourceItems,
+      };
+      updatedColumns[destinationIndex] = {
+        ...destinationColumn,
+        tasks: destinationItems,
+      };
+
+      setColumns(updatedColumns);
+    }
+  }
+
+  console.log("Source Items after:", sourceItems);
+  console.log("Destination Items after:", destinationColumn.tasks);
 };
 
 const TaskBoard = () => {
