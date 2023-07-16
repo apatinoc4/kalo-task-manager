@@ -10,24 +10,26 @@ const DEFAULT_COLUMNS: BoardColumn[] = [
     name: "To do",
     tasks: [
       {
-        description: "Finish Board for today",
+        description:
+          "Finish Board for today, who tought beautiful dnd would betray me?",
         draggableId: "0",
-        name: "Task-1",
+        name: "Finish Board",
         status: "To do",
         taskId: "Task-1",
-      },
-      {
-        description: "",
-        draggableId: "1",
-        name: "Task-2",
-        status: "To do",
-        taskId: "Task-2",
       },
     ],
   },
   {
     name: "In Progress",
-    tasks: [],
+    tasks: [
+      {
+        description: "Using Vercel babyyyyy",
+        draggableId: "1",
+        name: "Deploy The App",
+        status: "To do",
+        taskId: "Task-2",
+      },
+    ],
   },
   {
     name: "Done",
