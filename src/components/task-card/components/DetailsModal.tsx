@@ -70,7 +70,7 @@ const DetailsModal = ({
           {isEditingTaskDesc ? (
             <EditField
               fieldName="description"
-              styles="w-10"
+              styles="w-full p-2"
               taskId={taskId}
               textValue={taskDescription}
               setIsEditingField={setIsEditingTaskDesc}

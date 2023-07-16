@@ -12,7 +12,6 @@ const onDragEnd = (
 ) => {
   const { source, destination } = result;
 
-  // If the destination is null or the same as the source, do nothing
   if (
     !destination ||
     (source.droppableId === destination.droppableId &&
@@ -32,7 +31,6 @@ const onDragEnd = (
   const sourceItems = [...sourceColumn.tasks];
 
   if (sourceIndex === destinationIndex) {
-    // Moving within the same column
     const [draggedElement] = sourceItems.splice(source.index, 1);
     sourceItems.splice(destination.index, 0, draggedElement);
 
@@ -44,7 +42,6 @@ const onDragEnd = (
 
     setColumns(updatedColumns);
   } else {
-    // Moving between different columns
     const destinationItems = [...destinationColumn.tasks];
     const draggedElementIndex = sourceItems.findIndex(
       (task) => task.draggableId === result.draggableId
@@ -67,9 +64,6 @@ const onDragEnd = (
       setColumns(updatedColumns);
     }
   }
-
-  console.log("Source Items after:", sourceItems);
-  console.log("Destination Items after:", destinationColumn.tasks);
 };
 
 const TaskBoard = () => {
@@ -81,8 +75,9 @@ const TaskBoard = () => {
       onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
     >
       <div className="p-8 w-full">
-        <Paper className="flex flex-col h-full justify-center items-center">
-          <p className="font-bold">Board</p>
+        <Paper className="flex flex-col h-full justify-center p-4">
+          <p className=" text-5xl font-bold ml-4 mt-4">Your Board</p>
+          <p className="ml-4 mt-0">Let's get stuff done</p>
           <div className="flex flex-row h-full p-4 w-full">
             {columns.map((column, idx) => (
               <BoardColumn

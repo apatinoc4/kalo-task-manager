@@ -37,6 +37,10 @@ const DEFAULT_COLUMNS: BoardColumn[] = [
 
 const DEFAULT_CONTEXT_VALUES = {
   columns: DEFAULT_COLUMNS,
+  isSnackBarOpen: true,
+  setIsSnackBarOpen: () => {
+    //
+  },
   setColumns: () => {
     //
   },
@@ -44,7 +48,9 @@ const DEFAULT_CONTEXT_VALUES = {
 
 export interface BoardContextInterface {
   columns: BoardColumn[];
+  isSnackBarOpen: boolean;
   setColumns: (columns: BoardColumn[]) => void;
+  setIsSnackBarOpen: (isSnackBarOpen: boolean) => void;
 }
 
 export const BoardContext = createContext<BoardContextInterface>(
@@ -53,12 +59,15 @@ export const BoardContext = createContext<BoardContextInterface>(
 
 const BoardProvider: FC<ReportProviderProps> = ({ children }) => {
   const [columns, setColumns] = useState(DEFAULT_COLUMNS);
+  const [isSnackBarOpen, setIsSnackBarOpen] = useState<boolean>(false);
 
   return (
     <BoardContext.Provider
       value={{
         columns,
+        isSnackBarOpen,
         setColumns,
+        setIsSnackBarOpen,
       }}
     >
       {children}

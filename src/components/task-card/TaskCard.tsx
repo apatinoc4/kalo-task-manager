@@ -5,9 +5,11 @@ import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import DetailsModal from "./modals/DetailsModal";
-import EditField from "./modals/EditFIeld";
+import DetailsModal from "./components/DetailsModal";
+import EditField from "./components/EditFIeld";
+import Tooltip from "@mui/material/Tooltip";
+import DeleteIcon from "@mui/icons-material/Delete";
+import DeletionModal from "./components/DeletionModal";
 
 interface TaskCardProps {
   draggableId: string;
@@ -24,6 +26,8 @@ const TaskCard = ({
   taskDescription,
   taskStatus,
 }: TaskCardProps) => {
+  const [isDeletionModalOpen, setIsDeletionModalOpen] =
+    useState<boolean>(false);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState<boolean>(false);
   const [isEditingTaskName, setIsEditingTaskName] = useState<boolean>(false);
 
@@ -34,7 +38,7 @@ const TaskCard = ({
           <Paper
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className="flex flex-row items-center m-2 p-4 pl-2 w-full hover:bg-sky-100"
+            className="box-border flex flex-row items-center my-2 p-4 pl-2 w-full hover:bg-teal-100"
             ref={provided.innerRef}
           >
             <DragIndicatorIcon
@@ -45,34 +49,39 @@ const TaskCard = ({
               {isEditingTaskName ? (
                 <EditField
                   fieldName="name"
-                  textValue={name}
-                  styles="bg-white h-5 w-24"
-                  size="small"
                   setIsEditingField={setIsEditingTaskName}
+                  size="small"
+                  styles="bg-slate-200 h-5 w-36"
                   taskId={taskId}
+                  textValue={name}
                 />
               ) : (
-                <p className="font-bold font-oswald text-l mb-0">{name}</p>
+                <p className="font-bold font-oswald mb-0 text-l">{name}</p>
               )}
               <p className="text-xs">ID: {taskId}</p>
             </div>
-            <div className="ml-auto flex flex-col xl:flex-row items-center">
-              <IconButton
-                onClick={() => setIsDetailsModalOpen(true)}
-                className="xl:mr-2"
-              >
-                <InfoIcon className="hover:text-gray-600 text-gray-400" />
-              </IconButton>
-
-              <IconButton
-                onClick={() => setIsEditingTaskName(true)}
-                className="xl:mr-1"
-              >
-                <EditIcon className="hover:text-gray-600 text-gray-400" />
-              </IconButton>
-              <IconButton>
-                <MoreHorizIcon className="hover:text-gray-600 text-gray-400" />
-              </IconButton>
+            <div className="flex flex-col items-center ml-auto xl:flex-row">
+              <Tooltip placement="right" title="Task Details">
+                <IconButton
+                  className="xl:mr-2"
+                  onClick={() => setIsDetailsModalOpen(true)}
+                >
+                  <InfoIcon className="hover:text-gray-600 text-teal-300" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip placement="right" title="Edit Name">
+                <IconButton
+                  className="xl:mr-1"
+                  onClick={() => setIsEditingTaskName(true)}
+                >
+                  <EditIcon className="hover:text-gray-600 text-teal-300" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip placement="right" title="Delete Task">
+                <IconButton onClick={() => setIsDeletionModalOpen(true)}>
+                  <DeleteIcon className="hover:text-gray-600 text-teal-300" />
+                </IconButton>
+              </Tooltip>
             </div>
           </Paper>
         )}
@@ -83,6 +92,11 @@ const TaskCard = ({
         taskName={name}
         taskStatus={taskStatus}
         taskDescription={taskDescription}
+        taskId={taskId}
+      />
+      <DeletionModal
+        isOpen={isDeletionModalOpen}
+        setIsOpen={setIsDeletionModalOpen}
         taskId={taskId}
       />
     </>

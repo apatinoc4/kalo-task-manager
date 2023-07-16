@@ -65,12 +65,19 @@ const EditField = ({
           }
         />
       )}
-      <div className="absolute right-0 top-6 flex flex-row my-2">
+      <div
+        className={clsx(
+          {
+            "top-8": multiline,
+          },
+          "absolute right-0 top-4 flex flex-row my-2"
+        )}
+      >
         <IconButton onClick={onConfirm} className="mr-1" size="small">
-          <CheckIcon className="bg-green-600 rounded-full text-white" />
+          <CheckIcon className="bg-teal-300 rounded-full text-white" />
         </IconButton>
         <IconButton onClick={onDiscard} size="small">
-          <ClearIcon className="bg-red-500 color-white rounded-full text-white" />
+          <ClearIcon className="bg-slate-500 color-white rounded-full text-white" />
         </IconButton>
       </div>
     </div>
