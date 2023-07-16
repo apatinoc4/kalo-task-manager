@@ -1,13 +1,14 @@
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import Snackbar from "@mui/material/Snackbar";
 import { BoardContext } from "../context/BoardContextProvider";
 import TaskCard from "./task-card/TaskCard";
 import clsx from "clsx";
 import { Task } from "../types/types";
+import Tooltip from "@mui/material/Tooltip";
 
 interface BoardColumnProps {
   droppableId: number;
@@ -26,9 +27,6 @@ const BoardColumn = ({
 }: BoardColumnProps) => {
   const { columns, isSnackBarOpen, setColumns, setIsSnackBarOpen } =
     useContext(BoardContext);
-  const [columnName, setColumnName] = useState<string>(name);
-  const [isEditingColumnName, setIsEditingColumnName] =
-    useState<boolean>(false);
 
   const createNewTask = () => {
     const columnsCopy = [...columns];
@@ -64,15 +62,16 @@ const BoardColumn = ({
   }, [isSnackBarOpen, setIsSnackBarOpen]);
 
   return (
-    <Box className="box-border bg-gray-100 flex flex-col m-4 p-4 rounded w-2/3 h-full">
+    <Box className="box-border bg-gray-100 flex flex-col m-4 p-4 rounded w-full lg:w-2/3 h-full">
       <div className="flex justify-between mb-2 items-center">
         <h2>
-          {columnName} -
-          <span className="font-semibold"> {tasks.length} Task(s)</span>
+          {name} -<span className="font-semibold"> {tasks.length} Task(s)</span>
         </h2>
-        <IconButton className="mr-1" onClick={() => createNewTask()}>
-          <AddIcon className="hover:text-gray-600 text-gray-400" />
-        </IconButton>
+        <Tooltip placement="right" title="Create Task">
+          <IconButton className="mr-1" onClick={() => createNewTask()}>
+            <AddIcon className="hover:text-gray-600 text-gray-400" />
+          </IconButton>
+        </Tooltip>
       </div>
       <Droppable droppableId={String(droppableId)}>
         {(provided, snapshot) => {

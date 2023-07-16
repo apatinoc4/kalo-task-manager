@@ -78,7 +78,7 @@ const TaskBoard = () => {
         <Paper className="flex flex-col h-full justify-center p-4">
           <p className=" text-5xl font-bold ml-4 mt-4">Your Board</p>
           <p className="ml-4 mt-0">Let's get stuff done</p>
-          <div className="flex flex-row h-full p-4 w-full">
+          <div className="flex lg:flex-row flex-col h-full p-4 w-full items-center">
             {columns.map((column, idx) => (
               <BoardColumn
                 droppableId={idx}
